@@ -14,9 +14,12 @@ const sendConfirmation = async (ticket) => {
 
   let message = payloads.confirmation({
     channel_id: channel.channel.id,
-    title: ticket.title,
-    description: ticket.description,
-    urgency: ticket.urgency
+    completedTask: ticket.completedTask,
+    inprogressTask: ticket.inprogressTask,
+    qaTask:ticket.qaTask,
+    blockerTask: ticket.blockerTask,
+    // description: ticket.description,
+    // urgency: ticket.urgency
   });
 
   let result = await api.callAPIMethod('chat.postMessage', message)
@@ -35,9 +38,12 @@ const create = async (userId, view) => {
   await sendConfirmation({
     userId,
     userEmail: result.user.profile.email,
-    title: values.title_block.title.value,
-    description: values.description_block.description.value || '_empty_',
-    urgency: values.urgency_block.urgency.selected_option && values.urgency_block.urgency.selected_option.text.text || 'not assigned'
+    completedTask: values.title_completedTask.completedTask.value,
+    inprogressTask: values.title_inprogressTask.inprogresstask.value,
+    qaTask: values.title_qaTask.qatask.value,
+    blockerTask: values.title_blockers.blockerstask.value,
+    // description: values.description_block.description.value || '_empty_',
+    // urgency: values.urgency_block.urgency.selected_option && values.urgency_block.urgency.selected_option.text.text || 'not assigned'
   });
 };
 

@@ -1,14 +1,18 @@
 module.exports = {
     confirmation: context => {
+        // console.log('=========Context',context)
         return {
             channel: context.channel_id,
-            text: 'Helpdesk ticket created!',
+            text: 'Updates posted!',
             blocks: JSON.stringify([
+                {
+                    type: 'divider'
+                },
                 {
                     type: 'section',
                     text: {
                         type: 'mrkdwn',
-                        text: '*Helpdesk ticket created!*'
+                        text: '*check posted Updates!*'
                     }
                 },
                 {
@@ -18,18 +22,21 @@ module.exports = {
                     type: 'section',
                     text: {
                         type: 'mrkdwn',
-                        text: `*Title*\n${context.title}\n\n*Description*\n${context.description}`
+                        text: `*Completed Task*\n${context.completedTask}
+                        \n*Inprogress Task*\n${context.inprogressTask}
+                        \n*Task in QA*\n${context.qaTask}
+                        \n*Blocker*\n${context.blockerTask}`
                     }
                 },
-                {
-                    type: 'context',
-                    elements: [
-                        {
-                            type: 'mrkdwn',
-                            text: `*Urgency*: ${context.urgency}`
-                        }
-                    ]
-                }
+                // {
+                //     type: 'context',
+                //     elements: [
+                //         {
+                //             type: 'mrkdwn',
+                //             text: `*Urgency*: ${context.urgency}`
+                //         }
+                //     ]
+                // }
             ])
         }
     },
@@ -40,7 +47,7 @@ module.exports = {
                 type: 'modal',
                 title: {
                     type: 'plain_text',
-                    text: 'Submit a helpdesk ticket'
+                    text: 'Submit the daily updates'
                 },
                 callback_id: 'submit-ticket',
                 submit: {
@@ -48,72 +55,112 @@ module.exports = {
                     text: 'Submit'
                 },
                 blocks: [
+                    // {
+                    //     block_id: 'title_block',
+                    //     type: 'input',
+                    //     label: {
+                    //         type: 'plain_text',
+                    //         text: 'Title'
+                    //     },
+                    //     element: {
+                    //         action_id: 'title',
+                    //         type: 'plain_text_input'
+                    //     },
+                    //     hint: {
+                    //         type: 'plain_text',
+                    //         text: '30 second summary of the problem'
+                    //     }
+                    // },
                     {
-                        block_id: 'title_block',
+                        block_id: 'title_completedTask',
                         type: 'input',
                         label: {
                             type: 'plain_text',
-                            text: 'Title'
+                            text: 'Completed Task'
                         },
                         element: {
-                            action_id: 'title',
-                            type: 'plain_text_input'
-                        },
-                        hint: {
-                            type: 'plain_text',
-                            text: '30 second summary of the problem'
+                            action_id: 'completedTask',
+                            type: 'plain_text_input',
+                            multiline: true
                         }
                     },
                     {
-                        block_id: 'description_block',
+                        block_id: 'title_inprogressTask',
                         type: 'input',
                         label: {
                             type: 'plain_text',
-                            text: 'Description'
+                            text: 'Add Inprogress task'
                         },
                         element: {
-                            action_id: 'description',
+                            action_id: 'inprogresstask',
+                            type: 'plain_text_input',
+                            multiline: true
+                        }
+                    },
+                    {
+                        block_id: 'title_qaTask',
+                        type: 'input',
+                        label: {
+                            type: 'plain_text',
+                            text: 'Add Task which are in QA'
+                        },
+                        element: {
+                            action_id: 'qatask',
                             type: 'plain_text_input',
                             multiline: true
                         },
-                        optional: true
+                        // optional: true
                     },
                     {
-                        block_id: 'urgency_block',
+                        block_id: 'title_blockers',
                         type: 'input',
                         label: {
                             type: 'plain_text',
-                            text: 'Importance'
+                            text: 'Add Task which are in blockers'
                         },
                         element: {
-                            action_id: 'urgency',
-                            type: 'static_select',
-                            options: [
-                                {
-                                    text: {
-                                        type: "plain_text",
-                                        text: "High"
-                                    },
-                                    value: "high"
-                                },
-                                {
-                                    text: {
-                                        type: "plain_text",
-                                        text: "Medium"
-                                    },
-                                    value: "medium"
-                                },
-                                {
-                                    text: {
-                                        type: "plain_text",
-                                        text: "Low"
-                                    },
-                                    value: "low"
-                                }
-                            ]
+                            action_id: 'blockerstask',
+                            type: 'plain_text_input',
+                            // multiline: true
                         },
-                        optional: true
-                    }
+                        // optional: true
+                    },
+                    // {
+                    //     block_id: 'urgency_block',
+                    //     type: 'input',
+                    //     label: {
+                    //         type: 'plain_text',
+                    //         text: 'Importance'
+                    //     },
+                    //     element: {
+                    //         action_id: 'urgency',
+                    //         type: 'static_select',
+                    //         options: [
+                    //             {
+                    //                 text: {
+                    //                     type: "plain_text",
+                    //                     text: "High"
+                    //                 },
+                    //                 value: "high"
+                    //             },
+                    //             {
+                    //                 text: {
+                    //                     type: "plain_text",
+                    //                     text: "Medium"
+                    //                 },
+                    //                 value: "medium"
+                    //             },
+                    //             {
+                    //                 text: {
+                    //                     type: "plain_text",
+                    //                     text: "Low"
+                    //                 },
+                    //                 value: "low"
+                    //             }
+                    //         ]
+                    //     },
+                    //     optional: true
+                    // }
                 ]
             })
         }
